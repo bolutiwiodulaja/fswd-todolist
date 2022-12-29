@@ -1,9 +1,8 @@
 import $ from "jquery";
+
 $.ajaxSetup({
   headers: {
-    "X-CSRF-Token": $('meta[name="csrf-token"]').attr(
-      "rLmGkIXAKDSKSt9ukwn_hKgHELDLewbp4wZB7dyfBLSZE__2nCblSrAegrFND6bF0hkrZRg8zJoHXGyCLYnNRw"
-    ),
+    "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
   },
 });
 
@@ -18,13 +17,10 @@ export var indexTasks = function (successCB, errorCB) {
   $.ajax(request);
 };
 
-indexTasks();
-
 export var postTask = function (content, successCB, errorCB) {
   var request = {
     type: "POST",
     url: "api/tasks?api_key=1",
-
     data: {
       task: {
         content: content,
@@ -36,5 +32,3 @@ export var postTask = function (content, successCB, errorCB) {
 
   $.ajax(request);
 };
-
-postTask("this is some task...");
