@@ -1,25 +1,48 @@
 import $ from "jquery";
 
-import { indexTasks, postTask } from "./requests.js";
+import { indexTasks, postTask, deleteTask, completeTask } from "./requests.js";
 
 indexTasks(function (response) {
   var htmlString = response.tasks.map(function (task) {
     return (
-      "<div class='col-12 mb-3 d-flex p-2 border rounded task' data-id='" +
+      "<div class='col-12 d-flex mb-3 p-2 border rounded task' data-id='" +
       task.id +
+      "' data-completed='" +
+      (task.completed ? "checked" : "") +
       "'> \
       " +
-      "<div class='col-8'>task.content</div>" +
+      task.content +
       "\
       " +
-      "<div class='col-3'><button>Delete</button></div>" +
+      "<button class='col-2 delete'>Delete</button>" +
       "\
       " +
-      "<div class='col-1'><input type='checkbox'></input></div>" +
+      "<input class='col-1 completed' type='checkbox'></input>" +
       "\
       </div>"
     );
   });
 
+  console.log(htmlString);
+
   $("#tasks").html(htmlString);
+
+  $("#post-task").on("submit", function (e) {
+    e.preventDefault();
+    postTask($("#input").val());
+    location.reload();
+  });
+
+  $(document).on("click", ".delete", function () {
+    deleteTask($(this).closest("div").data("id"));
+    location.reload();
+  });
+
+  $(document).on("change", ".completed", function () {
+    if (this.checked) {
+      completeTask($(this).closest("div").data("id"));
+    } else {
+      console.log("reopened");
+    }
+  });
 });

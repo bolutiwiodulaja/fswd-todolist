@@ -26,6 +26,29 @@ export var postTask = function (content, successCB, errorCB) {
         content: content,
       },
     },
+
+    success: successCB,
+    error: errorCB,
+  };
+
+  $.ajax(request);
+};
+
+export var deleteTask = function (id, successCB, errorCB) {
+  var request = {
+    type: "DELETE",
+    url: "api/tasks/" + id + "?api_key=1",
+    success: successCB,
+    error: errorCB,
+  };
+
+  $.ajax(request);
+};
+
+export var completeTask = function (id, successCB, errorCB) {
+  var request = {
+    type: "PUT",
+    url: "api/tasks/" + id + "/mark_complete?api_key=1",
     success: successCB,
     error: errorCB,
   };
